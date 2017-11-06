@@ -19,6 +19,9 @@
 
 #include <iostream>
 
+using std::cout;
+using std::endl;
+
 namespace wd
 {
 
@@ -40,6 +43,13 @@ std::vector<std::string> & DirScanner::files()
 	return vecFiles_;
 }
 
+void DirScanner::debug()
+{
+	for(auto & elem : vecFiles_)
+	{
+		cout << elem << endl;
+	}
+}
 void DirScanner::traverse(const std::string & dirName)
 {
 	//打开指定的目录

@@ -17,25 +17,21 @@ namespace wd
 
 class Configuration;
 class DirScanner;
-class FileProcessor;
 
 class PageLib
 {
 public:
 	PageLib(Configuration & conf,
-			DirScanner & dirScanner, 
-			FileProcessor & fileProcessor);
+			DirScanner & dirScanner);
 
 	void create();
 	void store();
 
 private:
-	Configuration &          conf_;
-	DirScanner &             dirScanner_;
-	FileProcessor &          fileProcessor_;
-	std::vector<std::string> vecPages_;
+	Configuration &          _conf;
+	DirScanner &             _dirScanner;
+	std::vector<std::string> _vecPages;
 };
-
 
 }//end of namespace wd
 

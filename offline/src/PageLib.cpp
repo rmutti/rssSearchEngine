@@ -8,7 +8,7 @@
 #include "Configuration.hpp"
 #include "PageLib.hpp"
 #include "DirScanner.hpp"
-#include "FileProcessor.hpp"
+#include "RssReader.hpp"
 #include "GlobalDefine.hpp"
 
 #include <iostream>
@@ -17,28 +17,24 @@
 namespace wd
 {
 PageLib::PageLib(Configuration & conf,
-				 DirScanner & dirScanner,
-			     FileProcessor & fileProcessor)
-	: conf_(conf),
-	  dirScanner_(dirScanner),
-	  fileProcessor_(fileProcessor)
+				 DirScanner & dirScanner)
+	: _conf(conf),
+	  _dirScanner(dirScanner)
 {}
 
 
 void PageLib::create()
 {
-	std::vector<std::string> & vecFiles = dirScanner_.files();
-	for(size_t idx = 0; idx != vecFiles.size(); ++idx)
-	{
-		std::string page = fileProcessor_.process(idx, vecFiles[idx]);
-		vecPages_.push_back(page);
-	}
+	std::vector<std::string> & vecFiles = _dirScanner.files();//xml文件
+	RssReader reader(vecFiles);
+	reader.loadFeedFiles();
+	reader.makePages(_vecPages);
 }
 
 void PageLib::store()
 {
 	//需要读取配置信息//???
-	std::map<std::string, std::string> & confMap = conf_.getConfigMap();
+	std::map<std::string, std::string> & confMap = _conf.getConfigMap();
 	std::string pageLibPath = confMap[RIPEPAGELIB_KEY];
 	std::string offsetLibPath = confMap[OFFSETLIB_KEY];
 
@@ -50,12 +46,12 @@ void PageLib::store()
 		return;
 	}
 
-	for(size_t idx = 0; idx != vecPages_.size(); ++idx)
+	for(size_t idx = 0; idx != _vecPages.size(); ++idx)
 	{
 		int id = idx + 1;
-		int length = vecPages_[idx].size();
+		int length = _vecPages[idx].size();
 		std::ofstream::pos_type offset = ofsPage.tellp();
-		ofsPage << vecPages_[idx];
+		ofsPage << _vecPages[idx];
 
 		ofsOffset << id << '\t' << offset << '\t' << length << '\n';
 	}

@@ -1,4 +1,4 @@
- ///
+ //
  /// @file    WordQuery.cpp
 
  /// @author  lemon(haohb13@gmail.com)
@@ -194,8 +194,9 @@ string WordQuery::returnNoAnswer()
 	Json::Value arr;
 
 	Json::Value elem;
-	elem["title"] = "no answer";
+	elem["title"] = "404, not found";
 	elem["summary"] = "亲,I cannot find what you want. What a pity!";
+	elem["url"] = "";
 	arr.append(elem);
 	root["files"] = arr;
 	Json::StyledWriter writer;
@@ -255,16 +256,20 @@ bool WordQuery::executeQuery(const vector<string> & queryWords,
 	typedef	set<pair<int, double> >::iterator setIter;
 	vector<pair<setIter, int> > iterVec;//保存需要求取交集的迭代器
 	int minIterNum = 0x7FFFFFFF;
-	for(auto item : queryWords)
+	int index = 0;
+	for(int idx = 0; idx != queryWords.size(); idx++)
 	{
-		int sz = _invertIndexTable[item].size();
+		string str = queryWords[idx];
+		int sz = _invertIndexTable[str].size();
 		if(sz == 0)
 			return false;
 		
-		if(minIterNum > sz)
+		if(minIterNum > sz){
 			minIterNum = sz;
+			index = idx;
+		}
 
-		iterVec.push_back(make_pair(_invertIndexTable[item].begin(), 0));
+		iterVec.push_back(make_pair(_invertIndexTable[str].begin(), 0));
 	}
 	cout << "minIterNum = " << minIterNum << endl;
 
@@ -285,9 +290,9 @@ bool WordQuery::executeQuery(const vector<string> & queryWords,
 			for(idx = 0; idx != iterVec.size(); ++idx)
 			{
 				weightVec.push_back(iterVec[idx].first->second);
-				++(iterVec[idx].first);//相同时，将每一个迭代器++
+				++(iterVec[idx].first);//相同时
 				++(iterVec[idx].second);//同时记录迭代器++的次数
-				if(iterVec[idx].second == minIterNum)
+				if(iterVec[index].second == minIterNum)
 				{	isExiting = true;	}
 			}
 			resultVec.push_back(make_pair(docid, weightVec));
@@ -307,7 +312,7 @@ bool WordQuery::executeQuery(const vector<string> & queryWords,
 			
 			++(iterVec[iterIdx].first);
 			++(iterVec[iterIdx].second);
-			if(iterVec[iterIdx].second == minIterNum)
+			if(iterVec[index].second == minIterNum)
 			{	isExiting = true;	}
 		}
 	}
@@ -324,10 +329,12 @@ string WordQuery::createJson(vector<int> & docIdVec, const vector<string> & quer
 	{
 		string summary = _pageLib[id].summary(queryWords);
 		string title = _pageLib[id].getTitle();
+		string url = _pageLib[id].getUrl();
 
 		Json::Value elem;
 		elem["title"] = title;
 		elem["summary"] = summary;
+		elem["url"] = url;
 		arr.append(elem);
 		if(++cnt == 100)// 最多记录100条
 			break;

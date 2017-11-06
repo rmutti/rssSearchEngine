@@ -46,6 +46,9 @@ public:
 	string getTitle()
 	{	return _docTitle;	}
 
+	string getUrl()
+	{	return _docUrl;	}
+
 private:
 	void processDoc(const string & doc, Configuration & config, WordSegmentation & jieba);
 

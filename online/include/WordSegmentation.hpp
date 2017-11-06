@@ -22,9 +22,9 @@ using std::vector;
 namespace wd
 {
 
-const char * const DICT_PATH = "/home/luo/project/cppjieba/dict/jieba.dict.utf8";
-const char * const HMM_PATH = "/home/luo/project/cppjieba/dict/hmm_model.utf8";
-const char * const USER_DICT_PATH = "/home/luo/project/cppjieba/dict/user.dict.utf8";
+const char * const DICT_PATH = "/home/chen/rssSearchEngine/cppjieba/dict/jieba.dict.utf8";
+const char * const HMM_PATH = "/home/chen//rssSearchEngine/cppjieba/dict/hmm_model.utf8";
+const char * const USER_DICT_PATH = "/home/chen//rssSearchEngine/cppjieba/dict/user.dict.utf8";
 
 
 class WordSegmentation
@@ -40,7 +40,7 @@ public:
 	vector<string> operator()(const char * src)
 	{
 		vector<string> words;
-		_jieba.CutAll(src, words);//cutAll 
+		_jieba.Cut(src, words, true);//cutAll 
 		return words;
 	}
 

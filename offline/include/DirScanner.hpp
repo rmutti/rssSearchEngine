@@ -27,6 +27,7 @@ public:
 
 	std::vector<std::string> & files();
 
+	void debug();
 private:
 	void traverse(const std::string & dirName);
 

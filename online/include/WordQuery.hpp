@@ -48,7 +48,7 @@ private:
 
 private:
 	WordSegmentation                                _jieba;
-	Configuration &									_conf;
+	Configuration &					_conf;
 	unordered_map<int, WebPage>                     _pageLib;
 	unordered_map<int, pair<int, int> >             _offsetLib;
 	unordered_map<string, set<pair<int, double> > > _invertIndexTable;

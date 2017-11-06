@@ -7,7 +7,6 @@
 #include "GlobalDefine.hpp"
 #include "Configuration.hpp"
 #include "DirScanner.hpp"
-#include "FileProcessor.hpp"
 #include "PageLib.hpp"
 #include "WordSegmentation.hpp"
 #include "WebPage.hpp"
@@ -19,13 +18,13 @@
 int main(void)
 {
 	wd::Configuration conf("conf/my.conf");
+	conf.debug();
 
 	wd::DirScanner dirScanner(conf);
 	dirScanner();
+	dirScanner.debug();
 
-	wd::FileProcessor fileProcessor(conf);
-
-	wd::PageLib pagelib(conf, dirScanner, fileProcessor);
+	wd::PageLib pagelib(conf, dirScanner);
 
 	time_t t1 = time(NULL);
 	pagelib.create();

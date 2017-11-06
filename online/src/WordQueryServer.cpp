@@ -48,9 +48,12 @@ WordQueryServer::WordQueryServer(const string & configfile)
 , _tcpServer(5080)
 , _pool(4, 10)
 {
-	_tcpServer.setConnectionCallback(std::bind(&WordQueryServer::onConnection, this, placeholders::_1));
-	_tcpServer.setMessageCallback(std::bind(&WordQueryServer::onMessage, this, placeholders::_1));
-	_tcpServer.setCloseCallback(std::bind(&WordQueryServer::onClose, this, placeholders::_1));
+	_tcpServer.setConnectionCallback(
+			std::bind(&WordQueryServer::onConnection, this, placeholders::_1));
+	_tcpServer.setMessageCallback(
+			std::bind(&WordQueryServer::onMessage, this, placeholders::_1));
+	_tcpServer.setCloseCallback(
+			std::bind(&WordQueryServer::onClose, this, placeholders::_1));
 
 }
 
@@ -93,6 +96,7 @@ void WordQueryServer::doTaskThread(const TcpConnectionPtr & conn, const string &
 
 	int sz = ret.size();
 	printf("result's size:%d\n",sz); 
+	//printf("%s\n\n", ret.c_str());
 	conn->sendInLoop(ret);
 }
 

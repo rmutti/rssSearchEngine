@@ -21,9 +21,11 @@ public:
 
 	std::map<std::string, std::string> & getConfigMap();
 	std::set<std::string> & getStopWordList();
+	void debug();
 private:
 
 	void readConfiguration();
+
 private:
 	std::string filepath_;
 	std::map<std::string, std::string> configMap_;

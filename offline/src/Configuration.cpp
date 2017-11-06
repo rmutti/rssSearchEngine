@@ -10,6 +10,9 @@
 #include <fstream>
 #include <sstream>
 
+using std::cout;
+using std::endl;
+
 namespace wd
 {
 
@@ -74,6 +77,14 @@ std::set<std::string> & Configuration::getStopWordList()
 #endif
 
 	return stopWordList_;
+}
+
+void Configuration::debug()
+{
+	for(auto & elem : configMap_)
+	{
+		cout << elem.first << " --> " << elem.second << endl;
+	}
 }
 
 }// end of namespace wd

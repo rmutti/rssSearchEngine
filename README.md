@@ -1,4 +1,4 @@
-# mini_search_engine
+# rss_search_engine
 
 modles:
   offline,online

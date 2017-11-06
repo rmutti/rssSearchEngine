@@ -50,12 +50,12 @@ void WebPage::processDoc(const string & doc, Configuration & config, WordSegment
 {
 	string docIdHead = "<docid>";
 	string docIdTail = "</docid>";
-	string docUrlHead = "<docurl>";
-	string docUrlTail = "</docurl>";
-	string docTitleHead = "<doctitle>\n";
-	string docTitleTail = "\r\n</doctitle>";
-	string docContentHead = "<doccontent>\n";
-	string docContentTail = "\n</doccontent>";
+	string docUrlHead = "<link>";
+	string docUrlTail = "</link>";
+	string docTitleHead = "<title>";
+	string docTitleTail = "</title>";
+	string docContentHead = "<content>";
+	string docContentTail = "</content>";
 
 	//提取文档的docid
 	int bpos = doc.find(docIdHead);
@@ -71,6 +71,10 @@ void WebPage::processDoc(const string & doc, Configuration & config, WordSegment
 					epos - bpos - docTitleHead.size());
 
 	//cout << "========" << endl << _docTitle << endl;
+	bpos = doc.find(docUrlHead);
+	epos = doc.find(docUrlTail);
+	_docUrl = doc.substr(bpos + docUrlHead.size(), 
+					epos - bpos - docUrlHead.size());
 	//content
 	bpos = doc.find(docContentHead);
 	epos = doc.find(docContentTail);
